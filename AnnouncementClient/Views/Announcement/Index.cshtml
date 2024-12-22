@@ -1,0 +1,65 @@
+﻿@model IEnumerable<AnnouncementClient.Models.AnnouncementViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Announcements</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<form method="get" asp-action="Index" class="form-inline mb-3">
+    <div class="form-group mr-2">
+        <label for="category" class="mr-2">Category</label>
+        <select id="category" name="category" class="form-control">
+            <option value="">-- Select Category --</option>
+            @foreach (var cat in ViewBag.Categories)
+            {
+                <option value="@cat" selected=" @(cat == ViewBag.SelectedCategory ? "selected" : "")">@cat</option>
+            }
+        </select>
+    </div>    
+    <button type="submit" class="btn btn-secondary">Sort</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.Category)</th>
+            <th>@Html.DisplayNameFor(model => model.SubCategory)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+            <td>@Html.DisplayFor(modelItem => item.Category)</td>
+            <td>@Html.DisplayFor(modelItem => item.SubCategory)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
